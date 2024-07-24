@@ -1,9 +1,10 @@
 import Notepad from '../components/Notepad';
+import Layout from './layout';
 
 export default function Home() {
   return (
-    <div>
+    <Layout>
       <Notepad />
-    </div>
+    </Layout>
   );
 }

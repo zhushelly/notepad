@@ -25,31 +25,34 @@ export async function POST(request) {
 }
 
 export async function PUT(request) {
-    try {
-      const url = new URL(request.url);
-      const id = url.searchParams.get('id');
-      if (!id) {
-        return NextResponse.json({ error: 'ID is required' }, { status: 400 });
-      }
-  
-      const body = await request.json();
-      if (!body.text) {
-        return NextResponse.json({ error: 'Text is required' }, { status: 400 });
-      }
-  
-      const response = await axios.put(`${apiUrl}/${id}`, body);
-      console.log('PUT response:', response.data); // Debug log
-      return NextResponse.json(response.data);
-    } catch (error) {
-      console.error('Error updating note:', error);
-      return NextResponse.json({ error: 'Error updating note' }, { status: 500 });
+  try {
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
     }
-  }
 
-  
+    const body = await request.json();
+    if (!body.text) {
+      return NextResponse.json({ error: 'Text is required' }, { status: 400 });
+    }
+
+    const response = await axios.put(`${apiUrl}/${id}`, body);
+    return NextResponse.json(response.data);
+  } catch (error) {
+    console.error('Error updating note:', error);
+    return NextResponse.json({ error: 'Error updating note' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request) {
   try {
-    const { id } = new URL(request.url).searchParams;
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
     await axios.delete(`${apiUrl}/${id}`);
     return NextResponse.json({ message: 'Note deleted' });
   } catch (error) {
