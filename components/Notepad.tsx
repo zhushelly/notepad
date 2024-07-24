@@ -25,10 +25,12 @@ const Notepad = () => {
     if (noteText.trim() === '') return;
     try {
       if (editId) {
-        await axios.put(`/api/notes?id=${editId}`, { text: noteText });
+        const response = await axios.put(`/api/notes?id=${editId}`, { text: noteText });
+        console.log('Updated note:', response.data); // Debug log
         setEditId(null);
       } else {
-        await axios.post('/api/notes', { text: noteText });
+        const response = await axios.post('/api/notes', { text: noteText });
+        console.log('Added note:', response.data); // Debug log
       }
       setNoteText('');
       fetchNotes();
@@ -36,7 +38,7 @@ const Notepad = () => {
       console.error('Error adding/updating note:', error);
     }
   };
-
+  
   const deleteNote = async (id: number) => {
     try {
       await axios.delete(`/api/notes?id=${id}`);
